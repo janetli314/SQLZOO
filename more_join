@@ -1,0 +1,34 @@
+--9.List the films where 'Harrison Ford' has appeared - but not in the starring role. [Note: the ord field of casting gives the position of the actor. If ord=1 then this actor is in the starring role]
+
+select title
+from movie as m
+join casting as c
+on m.id = c.movieid
+where actorid = (select id from actor where name ='Harrison Ford' )
+and ord != 1
+
+--10. List the films together with the leading star for all 1962 films.
+
+select title,a.name
+from movie as m
+join casting as c
+on m.id = c.movieid
+join actor as a
+on c.actorid = a.id
+where yr = 1962
+and ord = 1
+
+--11. Which were the busiest years for 'Rock Hudson', show the year and the number of movies he made each year for any year in which he made more than 2 movies.
+
+select yr, count(*)
+from movie as m
+join casting as c
+on m.id = c.movieid
+join actor as a
+on c.actorid = a.id
+where name = 'Rock Hudson'
+GROUP BY yr
+HAVING count(m.title) > 2
+
+
+
